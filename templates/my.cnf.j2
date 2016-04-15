@@ -1,0 +1,81 @@
+[client]
+#password	= [your_password]
+port		= {{ mysql_port }}
+socket		= {{ mysql_socket }}
+
+[mysqld]
+port = {{ mysql_port }}
+bind-address = {{ mysql_bind_address }}
+socket = {{ mysql_socket }}
+datadir = {{ mysql_datadir }}
+skip-external-locking
+max_connections = {{ mysql_max_connections }}
+max_connect_errors = {{ mysql_max_connect_errors }}
+
+# Memory settings.
+key_buffer_size = {{ mysql_key_buffer_size }}
+max_allowed_packet = {{ mysql_max_allowed_packet }}
+table_open_cache = {{ mysql_table_open_cache }}
+sort_buffer_size = {{ mysql_sort_buffer_size }}
+read_buffer_size = {{ mysql_read_buffer_size }}
+read_rnd_buffer_size = {{ mysql_read_rnd_buffer_size }}
+myisam_sort_buffer_size = {{ mysql_myisam_sort_buffer_size }}
+thread_cache_size = {{ mysql_thread_cache_size }}
+query_cache_size = {{ mysql_query_cache_size }}
+
+# Try number of CPU's * 2 for thread_concurrency.
+thread_concurrency = {{ mysql_thread_concurrency }}
+
+# Other settings.
+wait_timeout = {{ mysql_wait_timeout }}
+
+# Replication log settings
+log-bin = {{ mysql_log_bin }}
+log_bin_index = {{ mysql_log_bin_index }}
+binlog-format = {{ mysql_binlog_format }}
+{% if mysql_replication_role == 'master' %}
+server-id = {{ mysql_server_id }}
+{% endif %}
+{% if mysql_replication_role == 'slave' %}
+server-id = {{ mysql_slave_server_id }}
+relay-log = {{ mysql_relay_log }}
+relay-log-index = {{ mysql_relay_log_index }}
+skip_slave_start = 1
+log_slave_updates = 1
+read_only = 1
+{% endif %}
+
+# InnoDB settings.
+innodb_data_home_dir = {{ mysql_innodb_data_home_dir }}
+innodb_data_file_path = {{ mysql_innodb_data_file_path }}
+innodb_log_group_home_dir = {{ mysql_innodb_log_group_home_dir }}
+innodb_buffer_pool_size = {{ mysql_innodb_buffer_pool_size }}
+innodb_additional_mem_pool_size = {{ mysql_innodb_additional_mem_pool_size }}
+innodb_log_file_size = {{ mysql_innodb_log_file_size }}
+innodb_log_buffer_size = {{ mysql_innodb_log_buffer_size }}
+innodb_flush_log_at_trx_commit = {{ mysql_innodb_flush_log_at_trx_commit }}
+innodb_lock_wait_timeout = {{ mysql_innodb_lock_wait_timeout }}
+
+{% for k in mysql_innodb_extra %}
+{{ k }} = {{ mysql_innodb_extra[k] }}
+{% endfor %}
+
+# mysqldump settings.
+[mysqldump]
+quick
+max_allowed_packet = {{ mysql_mysqldump_max_allowed_packet }}
+
+[mysql]
+no-auto-rehash
+# Remove the next comment character if you are not familiar with SQL
+#safe-updates
+
+# myisamchk settings.
+[myisamchk]
+key_buffer_size = {{ mysql_myisamchk_key_buffer_size }}
+sort_buffer_size = {{ mysql_myisamchk_sort_buffer_size }}
+read_buffer = {{ mysql_myisamchk_read_buffer }}
+write_buffer = {{ mysql_myisamchk_write_buffer }}
+
+[mysqlhotcopy]
+interactive-timeout

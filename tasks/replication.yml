@@ -1,0 +1,43 @@
+---
+# tasks file replication.yml
+
+- name: Ensure replication user exists on master.
+  mysql_user:
+    name: "{{ item.name }}"
+    host: "{{ item.host | default('%') }}"
+    password: "{{ item.password }}"
+    priv: "{{ item.priv | default('*.*:REPLICATION SLAVE') }}"
+    state: present
+  with_items: mysql_replication_user
+  when: mysql_replication_role == 'master' and mysql_replication_user
+
+- name: Check slave replication status.
+  mysql_replication: mode=getslave
+  ignore_errors: true
+  register: slave_status
+  when: mysql_replication_role == 'slave'
+
+- name: Check master replication status.
+  mysql_replication: mode=getmaster
+  delegate_to: "{{ mysql_replication_master }}"
+  register: master_status
+  when: slave_status|failed and (mysql_replication_role == 'slave')
+
+- name: Configure replication on the slave.
+  mysql_replication:
+    mode: changemaster
+    master_host: "{{ mysql_replication_master }}"
+    master_user: "{{ item.name }}"
+    master_password: "{{ item.password }}"
+    master_log_file: "{{ master_status.File }}"
+    master_log_pos: "{{ master_status.Position }}"
+  ignore_errors: True
+  with_items: mysql_replication_user
+  when: >
+    slave_status|failed
+    and (mysql_replication_role == 'slave')
+    and mysql_replication_user
+
+- name: Start replication.
+  mysql_replication: mode=startslave
+  when:  slave_status|failed and mysql_replication_role == 'slave'

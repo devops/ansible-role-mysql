@@ -1,0 +1,6 @@
+---
+# vars file RedHat.yml
+
+mysql_daemon_user: mysql
+mysql_config_file: /etc/my.cnf
+mysql_socket: /var/lib/mysql/mysql.sock

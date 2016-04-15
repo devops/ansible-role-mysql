@@ -1,0 +1,74 @@
+---
+# defaults file for ansible-role-mysql
+
+mysql_packages:
+  - mysql-server
+mysql_daemon: mysqld
+mysql_root_username: root
+mysql_root_password: root
+
+# MySQL connection settings.
+mysql_port: 3306
+mysql_bind_address: 0.0.0.0
+mysql_datadir: "/var/lib/mysql"
+mysql_max_connections: "700"
+mysql_max_connect_errors: "1844674407370954751"
+
+# Memory settings (default values optimized ~512MB RAM).
+mysql_key_buffer_size: "256M"
+mysql_max_allowed_packet: "1M"
+mysql_table_open_cache: "256"
+mysql_sort_buffer_size: "1M"
+mysql_read_buffer_size: "1M"
+mysql_read_rnd_buffer_size: "4M"
+mysql_myisam_sort_buffer_size: "64M"
+mysql_thread_cache_size: "8"
+mysql_query_cache_size: "16M"
+
+# Try number of CPU's * 2 for thread_concurrency.
+mysql_thread_concurrency: 8
+
+# Other settings.
+mysql_wait_timeout: "28800"
+
+# Replication log settings
+mysql_log_bin: "mysql-bin"
+mysql_log_bin_index: "mysql-bin.index"
+mysql_binlog_format: "mixed"
+mysql_relay_log: "mysql-relay-bin"
+mysql_relay_log_index: "mysql-relay-bin.index"
+
+# InnoDB settings.
+mysql_innodb_data_home_dir: "{{ mysql_datadir }}"
+mysql_innodb_data_file_path: "ibdata1:10M:autoextend"
+mysql_innodb_log_group_home_dir: "{{ mysql_datadir }}"
+# set .._buffer_pool_size up to 50 - 80 % of RAM but beware of setting memory usage too high
+mysql_innodb_buffer_pool_size: "256M"
+mysql_innodb_additional_mem_pool_size: "20M"
+# Set .._log_file_size to 25 % of buffer pool size
+mysql_innodb_log_file_size: "64M"
+mysql_innodb_log_buffer_size: "8M"
+mysql_innodb_flush_log_at_trx_commit: "1"
+mysql_innodb_lock_wait_timeout: "50"
+
+# InnoDB extras settings.
+mysql_innodb_extra: ""
+
+# mysqldump settings.
+mysql_mysqldump_max_allowed_packet: "16M"
+
+# myisamchk settings.
+mysql_myisamchk_key_buffer_size: "128M"
+mysql_myisamchk_sort_buffer_size: "128M"
+mysql_myisamchk_read_buffer: "2M"
+mysql_myisamchk_write_buffer: "2M"
+
+# Users
+mysql_users: []
+
+# Replication
+mysql_replication_role: ""
+mysql_server_id: "1"
+mysql_slave_server_id: "2"
+mysql_replication_master: ""
+mysql_replication_user: []

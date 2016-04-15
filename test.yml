@@ -1,0 +1,101 @@
+---
+# test for RedHat/CentOS 6
+- name: Install MySQL server On CentOS6
+  hosts: mysql
+  vars:
+    mysql_root_username: root
+    mysql_root_password: root
+    mysql_users:
+      - { name: "root", host: "%", password: "root", priv: "*.*:GRANT,ALL" }
+    mysql_innodb_extra:
+      innodb_rollback_on_timeout: 1
+    mysql_datadir: "/data/mysql"
+  roles:
+    - ansible-role-mysql
+
+- name: Install MySQL Replication Master Server.
+  hosts: mysql_master
+  vars:
+    mysql_root_username: root
+    mysql_root_password: root
+    mysql_users:
+      - { name: "root", host: "%", password: "root", priv: "*.*:GRANT,ALL" }
+    mysql_datadir: "/data/mysql"
+    mysql_replication_role: 'master'
+    mysql_replication_user:
+      - { name: "repuser", host: "dbslave", password: "repuser"}
+  roles:
+    - ansible-role-mysql
+
+- name: Install MySQL Replication Slave Server.
+  hosts: mysql_slave
+  vars:
+    mysql_root_username: root
+    mysql_root_password: root
+    mysql_users:
+      - { name: "root", host: "%", password: "root", priv: "*.*:GRANT,ALL" }
+    mysql_datadir: "/data/mysql"
+    mysql_replication_role: 'slave'
+    mysql_slave_server_id: "2"
+    mysql_replication_master: "dbmaster"
+    mysql_replication_user:
+      - { name: "repuser", host: "dbslave", password: "repuser"}
+  roles:
+    - ansible-role-mysql
+
+# test for RedHat/CentOS 7
+- name: Install MariaDB server On CentOS7
+  hosts: mariadb
+  vars:
+    mysql_packages:
+      - mariadb
+      - mariadb-server
+      - mariadb-libs
+    mysql_daemon: mariadb
+    mysql_root_username: root
+    mysql_root_password: root
+    mysql_users:
+      - { name: "root", host: "%", password: "root", priv: "*.*:GRANT,ALL" }
+    mysql_datadir: "/data/mariadb"
+  roles:
+    - ansible-role-mysql
+
+- name: Install MariaDB Replication Master Server.
+  hosts: mariadb_master
+  vars:
+    mysql_packages:
+      - mariadb
+      - mariadb-server
+      - mariadb-libs
+    mysql_daemon: mariadb
+    mysql_root_username: root
+    mysql_root_password: root
+    mysql_users:
+      - { name: "root", host: "%", password: "root", priv: "*.*:GRANT,ALL" }
+    mysql_datadir: "/data/mysql"
+    mysql_replication_role: 'master'
+    mysql_replication_user:
+      - { name: "repuser", host: "dbslave", password: "repuser"}
+  roles:
+    - ansible-role-mysql
+
+- name: Install MariaDB Replication Slave Server.
+  hosts: mariadb_slave
+  vars:
+    mysql_packages:
+      - mariadb
+      - mariadb-server
+      - mariadb-libs
+    mysql_daemon: mariadb
+    mysql_root_username: root
+    mysql_root_password: root
+    mysql_users:
+      - { name: "root", host: "%", password: "root", priv: "*.*:GRANT,ALL" }
+    mysql_datadir: "/data/mysql"
+    mysql_replication_role: 'slave'
+    mysql_slave_server_id: "2"
+    mysql_replication_master: "dbmaster"
+    mysql_replication_user:
+      - { name: "repuser", host: "dbslave", password: "repuser"}
+  roles:
+    - ansible-role-mysql
