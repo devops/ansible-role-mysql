@@ -71,6 +71,8 @@ System Firewall must disabled or open mysql port default is 3306.
 * `mysql_slave_server_id: "2"`
 * `mysql_replication_master: ""`
 * `mysql_replication_user: []`
+* `mysql_character: ""`
+* `mysql_extra: ""`
 
 ### `vars/RedHat.yml`
 
@@ -94,6 +96,9 @@ None.
         mysql_innodb_extra:
           innodb_rollback_on_timeout: 1
         mysql_datadir: "/data/mysql"
+        mysql_character: "utf8"
+        mysql_extra:
+          log_bin_trust_function_creators: 1
       roles:
         - mysql
 
