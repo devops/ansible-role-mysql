@@ -75,3 +75,6 @@ mysql_server_id: "1"
 mysql_slave_server_id: "2"
 mysql_replication_master: ""
 mysql_replication_user: []
+
+# mysqld extras settings.
+mysql_extra: ""

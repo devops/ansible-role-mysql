@@ -34,6 +34,9 @@ thread_concurrency = {{ mysql_thread_concurrency }}
 
 # Other settings.
 wait_timeout = {{ mysql_wait_timeout }}
+{% for k in mysql_extra %}
+{{ k }} = {{ mysql_extra[k] }}
+{% endfor %}
 
 # Replication log settings
 log-bin = {{ mysql_log_bin }}

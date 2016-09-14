@@ -11,6 +11,8 @@
       innodb_rollback_on_timeout: 1
     mysql_datadir: "/data/mysql"
     mysql_character: "utf8"
+    mysql_extra:
+      log_bin_trust_function_creators: 1 
   roles:
     - ansible-role-mysql
 
