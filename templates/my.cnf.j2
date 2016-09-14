@@ -2,11 +2,17 @@
 #password	= [your_password]
 port		= {{ mysql_port }}
 socket		= {{ mysql_socket }}
+{% if mysql_character %}
+default-character-set = {{ mysql_character }}
+{% endif %}
 
 [mysqld]
 port = {{ mysql_port }}
 bind-address = {{ mysql_bind_address }}
 socket = {{ mysql_socket }}
+{% if mysql_character %}
+character-set-server = {{ mysql_character }}
+{% endif %}
 datadir = {{ mysql_datadir }}
 skip-external-locking
 max_connections = {{ mysql_max_connections }}
@@ -67,6 +73,9 @@ max_allowed_packet = {{ mysql_mysqldump_max_allowed_packet }}
 
 [mysql]
 no-auto-rehash
+{% if mysql_character %}
+default-character-set = {{ mysql_character }}
+{% endif %}
 # Remove the next comment character if you are not familiar with SQL
 #safe-updates
 
