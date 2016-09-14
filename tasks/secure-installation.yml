@@ -12,7 +12,7 @@
     name: "root"
     host: "{{ item }}"
     password: "{{ mysql_root_password }}"
-  with_items: mysql_root_hosts.stdout_lines
+  with_items: "{{ mysql_root_hosts.stdout_lines }}"
 
 # Has to be after the root password assignment, for idempotency.
 - name: Copy .my.cnf file with root password credentials.
@@ -33,7 +33,7 @@
      name: ""
      host: "{{ item }}"
      state: absent
-  with_items: mysql_anonymous_hosts.stdout_lines
+  with_items: "{{ mysql_anonymous_hosts.stdout_lines }}"
 
 - name: Remove MySQL test database.
   mysql_db: "name='test' state=absent"

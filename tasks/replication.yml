@@ -8,7 +8,7 @@
     password: "{{ item.password }}"
     priv: "{{ item.priv | default('*.*:REPLICATION SLAVE') }}"
     state: present
-  with_items: mysql_replication_user
+  with_items: "{{ mysql_replication_user }}"
   when: mysql_replication_role == 'master' and mysql_replication_user
 
 - name: Check slave replication status.
@@ -32,7 +32,7 @@
     master_log_file: "{{ master_status.File }}"
     master_log_pos: "{{ master_status.Position }}"
   ignore_errors: True
-  with_items: mysql_replication_user
+  with_items: "{{ mysql_replication_user }}"
   when: >
     slave_status|failed
     and (mysql_replication_role == 'slave')

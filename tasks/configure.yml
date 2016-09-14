@@ -2,7 +2,12 @@
 # tasks file configure.yml
 
 - name: Ensuer MySQL Datadir is exists.
-  file: path={{ mysql_datadir }} state=directory owner={{ mysql_daemon_user }} group={{ mysql_daemon_user }} mode=0755
+  file:
+    path: "{{ mysql_datadir }}"
+    state: directory
+    owner: "{{ mysql_daemon_user }}"
+    group: "{{ mysql_daemon_user }}"
+    mode: 0755
 
 - name: Copy my.cnf global MySQL configuration.
   template:
@@ -13,4 +18,7 @@
     mode: 0644
 
 - name: Ensure MySQL is started and enabled on boot.
-  service: "name={{ mysql_daemon }} state=started enabled=yes"
+  service:
+    name: "{{ mysql_daemon }}"
+    state: started
+    enabled: yes

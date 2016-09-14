@@ -2,8 +2,12 @@
 # tasks file setup-RedHat.yml
 
 - name: Ensure MySQL Python libraries are installed.
-  yum: "name=MySQL-python state=installed"
+  yum:
+    name: 'MySQL-python'
+    state: installed
 
 - name: Ensure MySQL packages are installed.
-  yum: "name={{ item }} state=installed"
-  with_items: mysql_packages
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items: "{{ mysql_packages }}"
