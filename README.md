@@ -4,15 +4,6 @@ Install and configure MySQL or MariaDB server on RHEL/CentOS.
 
 ## Requirements
 
-### RHEL/CentOS 7 MariaDB configuration
-
-On RHEL/CentOS 7+，Set the following variables：
-
-    mysql_packages:
-      - mariadb
-      - mariadb-server
-      - mariadb-libs
-    mysql_daemon: mariadb
 
 ### Replication configuration
 
@@ -22,13 +13,9 @@ System Firewall must disabled or open mysql port default is 3306.
 
 ### `defaults/main.yml`
 
-* `mysql_packages:`
-    ```
-      - mysql-server
-    ```
-* `mysql_daemon: mysqld`
 * `mysql_root_username: root`
 * `mysql_root_password: root`
+* `mysql_character: ""`
 * `mysql_port: 3306`
 * `mysql_bind_address: 0.0.0.0`
 * `mysql_datadir: "/var/lib/mysql"`
@@ -74,11 +61,9 @@ System Firewall must disabled or open mysql port default is 3306.
 * `mysql_character: ""`
 * `mysql_extra: ""`
 
-### `vars/RedHat.yml`
+### RedHat6 to see `vars/redhat-6.yml`
 
-* `mysql_daemon_user: mysql`
-* `mysql_config_file: /etc/my.cnf`
-* `mysql_socket: /var/lib/mysql/mysql.sock`
+### RedHat7 to see `vars/redhat-7.yml`
 
 ## Dependencies
 
@@ -86,7 +71,7 @@ None.
 
 ## Example Playbook
 
-    - name: Install MySQL server On CentOS6
+    - name: Install MySQL server.
       hosts: mysql
       vars:
         mysql_root_username: root
@@ -100,23 +85,7 @@ None.
         mysql_extra:
           log_bin_trust_function_creators: 1
       roles:
-        - mysql
-
-    - name: Install MariaDB server On CentOS7
-      hosts: mariadb
-      vars:
-        mysql_root_username: root
-        mysql_root_password: root
-        mysql_users:
-          - { name: "root", host: "%", password: "root", priv: "*.*:GRANT,ALL" }
-        mysql_datadir: "/data/mariadb"
-        mysql_packages:
-          - mariadb
-          - mariadb-server
-          - mariadb-libs
-        mysql_daemon: mariadb
-      roles:
-        - mysql
+        - ansible-role-mysql
 
 ## Author Information
 
