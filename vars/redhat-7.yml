@@ -1,0 +1,11 @@
+---
+# vars file RedHat7/CentOS7
+
+mysql_daemon_user: mysql
+mysql_config_file: /etc/my.cnf
+mysql_socket: /var/lib/mysql/mysql.sock
+mysql_packages:
+      - mariadb
+      - mariadb-server
+      - mariadb-libs
+mysql_daemon: mariadb

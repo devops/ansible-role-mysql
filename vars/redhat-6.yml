@@ -1,6 +1,9 @@
 ---
-# vars file RedHat.yml
+# vars file RedHat6/CentOS6
 
 mysql_daemon_user: mysql
 mysql_config_file: /etc/my.cnf
 mysql_socket: /var/lib/mysql/mysql.sock
+mysql_packages:
+  - mysql-server
+mysql_daemon: mysqld

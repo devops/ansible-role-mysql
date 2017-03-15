@@ -1,9 +1,6 @@
 ---
 # defaults file for ansible-role-mysql
 
-mysql_packages:
-  - mysql-server
-mysql_daemon: mysqld
 mysql_root_username: root
 mysql_root_password: root
 
